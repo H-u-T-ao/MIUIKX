@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MIUIKX</string>
+    <string name="restart_system_ui">Restart System UI</string>
 </resources>

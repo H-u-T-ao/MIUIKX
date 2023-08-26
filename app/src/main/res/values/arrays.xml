@@ -2,5 +2,6 @@
 <resources>
     <array name="need_module">
         <item>com.android.systemui</item>
+<!--        <item>com.miui.notes</item>-->
     </array>
 </resources>

@@ -4,8 +4,8 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 interface IHookCore {
 
-    fun isEnable(): Boolean = true
+    fun isEnable(): Boolean
 
-    fun hook(param: XC_LoadPackage.LoadPackageParam)
+    fun hook(param: XC_LoadPackage.LoadPackageParam): Boolean
 
 }

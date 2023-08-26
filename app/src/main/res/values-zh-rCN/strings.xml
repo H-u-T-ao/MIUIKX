@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MIUIKX</string>
+    <string name="restart_system_ui">重启系统界面</string>
+</resources>
