@@ -12,7 +12,19 @@ class HookBuilder<T : Member> : XC_MethodHook() {
 
     val self: Any get() = hookParam.thisObject
 
-    val args: Any get() = hookParam.args
+    val args: Array<Any?> get() = hookParam.args
+
+    var result: Any?
+        set(value) {
+            hookParam.result = value
+        }
+        get() = hookParam.result
+
+    var throwable: Throwable?
+        set(value) {
+            hookParam.throwable = value
+        }
+        get() = hookParam.throwable
 
     private var replacement = false
 

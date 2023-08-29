@@ -38,6 +38,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.4.3"
@@ -52,6 +53,11 @@ android {
 dependencies {
 
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
+    implementation("androidx.activity:activity-ktx:1.7.2")
+    implementation("androidx.annotation:annotation:1.7.0-rc01")
+
+    // androidx viewpager
+    implementation("androidx.viewpager:viewpager:1.0.0")
 
     // xposed api
     compileOnly("de.robv.android.xposed:api:82")
