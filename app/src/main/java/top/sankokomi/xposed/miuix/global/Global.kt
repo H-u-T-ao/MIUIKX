@@ -2,6 +2,7 @@ package top.sankokomi.xposed.miuix.global
 
 import android.app.Application
 import android.content.Context
+import top.sankokomi.xposed.miuix.BuildConfig
 
 @Suppress("StaticFieldLeak")
 object Global {
@@ -10,7 +11,7 @@ object Global {
         _context = app
     }
 
-    const val isDebug = true
+    val isDebug: Boolean = BuildConfig.DEBUG
 
     val context: Context get() = _context!!
 

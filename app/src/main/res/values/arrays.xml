@@ -3,5 +3,6 @@
     <array name="need_module">
         <item>com.android.systemui</item>
         <item>miui.systemui.plugin</item>
+        <item>com.miui.home</item>
     </array>
 </resources>

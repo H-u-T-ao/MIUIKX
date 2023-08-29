@@ -6,30 +6,6 @@ import top.sankokomi.xposed.miuix.BuildConfig
 import top.sankokomi.xposed.miuix.global.Global
 import top.sankokomi.xposed.miuix.tools.PrefKey
 
-val preference by lazy { create() }
-
-@Suppress("DEPRECATION", "WorldReadableFiles")
-private fun create(key: String = PrefKey.PREFERENCE_MAIN_KEY): Preference {
-    return if (Global.isMIUIKX) {
-        Preference(
-            PrefSp(
-                Global.context
-                    .createDeviceProtectedStorageContext()
-                    .getSharedPreferences(key, Context.MODE_WORLD_READABLE)
-            )
-        )
-    } else {
-        val sp = XSharedPreferences(BuildConfig.APPLICATION_ID, key)
-        Preference(
-            if (!sp.file.canRead()) {
-                object : IPrefSp {}
-            } else {
-                PrefSp(sp)
-            }
-        )
-    }
-}
-
 class Preference(
     private val prefSp: IPrefSp
 ) : IPrefSp by prefSp {
@@ -52,4 +28,38 @@ class Preference(
         4
     )
 
+    @Pref(
+        "系统桌面 docker 栏的搜索按钮重定向，" +
+                "true 表示若开启了抽屉模式，则重定向到打开抽屉，其余情况不生效",
+        "默认 false"
+    )
+    var dockerSearchIconRedirect by BooleanPrefProperty(
+        "docker_search_icon_redirect",
+        false
+    )
+
+}
+
+val preference by lazy { create() }
+
+@Suppress("DEPRECATION", "WorldReadableFiles")
+private fun create(key: String = PrefKey.PREFERENCE_MAIN_KEY): Preference {
+    return if (Global.isMIUIKX) {
+        Preference(
+            PrefSp(
+                Global.context
+                    .createDeviceProtectedStorageContext()
+                    .getSharedPreferences(key, Context.MODE_WORLD_READABLE)
+            )
+        )
+    } else {
+        val sp = XSharedPreferences(BuildConfig.APPLICATION_ID, key)
+        Preference(
+            if (!sp.file.canRead()) {
+                object : IPrefSp {}
+            } else {
+                PrefSp(sp)
+            }
+        )
+    }
 }

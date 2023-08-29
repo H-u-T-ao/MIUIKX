@@ -14,9 +14,10 @@ import androidx.compose.ui.res.stringResource
 import top.sankokomi.xposed.miuix.R
 import top.sankokomi.xposed.miuix.pref.preference
 import top.sankokomi.xposed.miuix.tools.command
-import top.sankokomi.xposed.miuix.ui.composable.MIUIKXIntPrefSlideBar
+import top.sankokomi.xposed.miuix.ui.pref.MIUIKXIntPrefSlideBar
 import top.sankokomi.xposed.miuix.ui.composable.MIUIKXSurface
 import top.sankokomi.xposed.miuix.ui.composable.RealColumn
+import top.sankokomi.xposed.miuix.ui.pref.MIUIKXBooleanPrefSwitch
 
 class MIUIKXMainUI : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,6 +62,10 @@ fun MIUIKXMain() {
             text = "新版控制中心每页开关行数",
             enabled = false,
             valueRange = 1..6
+        )
+        MIUIKXBooleanPrefSwitch(
+            property = preference::dockerSearchIconRedirect,
+            text = "抽屉模式重定向 Docker 栏搜索按键"
         )
     }
 }

@@ -54,10 +54,14 @@ dependencies {
 
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
     implementation("androidx.activity:activity-ktx:1.7.2")
+    implementation("androidx.fragment:fragment-ktx:1.5.6")
     implementation("androidx.annotation:annotation:1.7.0-rc01")
 
     // androidx viewpager
     implementation("androidx.viewpager:viewpager:1.0.0")
+
+    // androidx recyclerview
+    implementation("androidx.recyclerview:recyclerview:1.3.1")
 
     // xposed api
     compileOnly("de.robv.android.xposed:api:82")

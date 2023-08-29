@@ -9,6 +9,8 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 import top.sankokomi.xposed.miuix.core.base.IPackageInitHooker
 import top.sankokomi.xposed.miuix.core.base.IResourcesInitHooker
 import top.sankokomi.xposed.miuix.core.base.IZygoteInitHooker
+import top.sankokomi.xposed.miuix.core.inject.AppInjectHooker
+import top.sankokomi.xposed.miuix.core.miuihome.MIUIHomeDockerHooker
 import top.sankokomi.xposed.miuix.core.systemui.ControlCenterHooker
 import top.sankokomi.xposed.miuix.core.systemui.NavigationBarHooker
 import top.sankokomi.xposed.miuix.tools.LogTools
@@ -30,16 +32,31 @@ class MIUIKXCore1 :
     )
 
     private val packageInitHookList = listOf<IPackageInitHooker>(
+        AppInjectHooker, /* 优先 */
         NavigationBarHooker,
-        ControlCenterHooker
+        ControlCenterHooker,
+        MIUIHomeDockerHooker
     )
 
     private val resourcesInitHookList = listOf<IResourcesInitHooker>(
-        ControlCenterHooker
     )
 
     override fun initZygote(startupParam: IXposedHookZygoteInit.StartupParam) {
         // LogTools.d(TAG_ZYGOTE, "(Zygote) init pm = ${startupParam.modulePath}")
+        zygoteInitHookList.map {
+            try {
+                if (!it.isZygoteHookEnable()) {
+                    return@map
+                }
+                val result = it.hook(startupParam)
+                if (result) {
+                    LogTools.d(TAG_ZYGOTE, "${it.javaClass.simpleName} launch success")
+                }
+            } catch (t: Throwable) {
+                // catch to protect the process
+                LogTools.e(TAG_ZYGOTE, "${it.javaClass.simpleName} crash", t)
+            }
+        }
     }
 
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
@@ -47,7 +64,6 @@ class MIUIKXCore1 :
         packageInitHookList.map {
             try {
                 if (!it.isPackageHookEnable()) {
-                    LogTools.d(TAG_PK, "${it.javaClass.simpleName} enable false")
                     return@map
                 }
                 val result = it.hook(lpparam)
@@ -68,7 +84,6 @@ class MIUIKXCore1 :
         resourcesInitHookList.map {
             try {
                 if (!it.isResourcesHookEnable()) {
-                    LogTools.d(TAG_RES, "${it.javaClass.simpleName} enable false")
                     return@map
                 }
                 val result = it.hook(resparam)

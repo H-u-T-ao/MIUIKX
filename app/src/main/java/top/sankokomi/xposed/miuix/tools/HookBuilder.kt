@@ -10,9 +10,11 @@ class HookBuilder<T : Member> : XC_MethodHook() {
     @Suppress("UNCHECKED_CAST")
     val method: T get() = hookParam.method as T
 
-    val self: Any get() = hookParam.thisObject
+    @Suppress("PropertyName")
+    val _self: Any get() = hookParam.thisObject
 
-    val args: Array<Any?> get() = hookParam.args
+    @Suppress("PropertyName")
+    val _args: Array<Any?> get() = hookParam.args
 
     var result: Any?
         set(value) {

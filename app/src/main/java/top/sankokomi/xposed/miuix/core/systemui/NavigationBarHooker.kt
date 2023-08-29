@@ -40,9 +40,9 @@ object NavigationBarHooker : IPackageInitHooker {
             )
         ) {
             after {
-                if (self::class.java == navFrameCls) {
+                if (_self::class.java == navFrameCls) {
                     // 匹配 NavigationBarFrame
-                    val frame = (self as FrameLayout)
+                    val frame = (_self as FrameLayout)
                     frame.post {
                         // 将 NavigationBarFrame 隐藏掉
                         frame.visibility = View.GONE

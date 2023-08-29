@@ -11,7 +11,6 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 import top.sankokomi.xposed.miuix.core.base.IPackageInitHooker
 import top.sankokomi.xposed.miuix.core.base.IResourcesInitHooker
 import top.sankokomi.xposed.miuix.pref.preference
-import top.sankokomi.xposed.miuix.tools.LogTools
 import top.sankokomi.xposed.miuix.tools.PackageName
 import top.sankokomi.xposed.miuix.tools.accessFunction
 import top.sankokomi.xposed.miuix.tools.copyTo
@@ -47,29 +46,28 @@ private const val ANDROIDX_VIEW_PAGER_CLS = "androidx.viewpager.widget.ViewPager
 
 private const val ANDROIDX_PAGER_ADAPTER_CLS = "androidx.viewpager.widget.PagerAdapter"
 
-object ControlCenterHooker : IPackageInitHooker, IResourcesInitHooker {
+object ControlCenterHooker : IPackageInitHooker {
 
     private var isLoaded: Boolean = false
 
     override fun isPackageHookEnable(): Boolean = !isLoaded
 
-    override fun isResourcesHookEnable(): Boolean = false
-
     override fun hook(param: XC_LoadPackage.LoadPackageParam): Boolean {
         if (isLoaded) return false
         if (param.packageName != PackageName.ANDROID_SYSTEM_UI_PK) return false
         isLoaded = true
-        hookToGetPluginClassLoader(param.classLoader) {
-            adjustControlCenterSwitchPageSize(
-                it,
-                preference.qsPagerRow.coerceAtLeast(2),
-                preference.qsPagerColumn.coerceAtLeast(1),
-            )
+        val row = preference.qsPagerRow.coerceAtLeast(2)
+        val column = preference.qsPagerColumn.coerceAtLeast(1)
+        if (row != 4 || column != 4) {
+            // 跟 miui 不一样才 hook
+            hookToGetPluginClassLoader(param.classLoader) {
+                adjustControlCenterSwitchPageSize(
+                    it,
+                    row,
+                    column
+                )
+            }
         }
-        return true
-    }
-
-    override fun hook(param: XC_InitPackageResources.InitPackageResourcesParam): Boolean {
         return true
     }
 
@@ -89,8 +87,8 @@ object ControlCenterHooker : IPackageInitHooker, IResourcesInitHooker {
             "getClassLoader"
         ) {
             after afterGetClassLoader@{
-                if (args.isEmpty()) return@afterGetClassLoader
-                val appInfo = args.first() ?: return@afterGetClassLoader
+                if (_args.isEmpty()) return@afterGetClassLoader
+                val appInfo = _args.first() ?: return@afterGetClassLoader
                 if (appInfo !is ApplicationInfo) return@afterGetClassLoader
                 if (appInfo.packageName == PackageName.MIUI_SYSTEM_UI_PLUGIN_PK) {
                     // 系统界面组件是插件化的，这里是要获得加载了系统界面组件的类加载器
@@ -115,20 +113,20 @@ object ControlCenterHooker : IPackageInitHooker, IResourcesInitHooker {
             emptyArray()
         ) {
             after afterPagerDistributeTiles@{
-                if (self requireField "collapse") {
+                if (_self requireField "collapse") {
                     // 这个变量存储了所有的按钮
-                    val records = self.requireField<ArrayList<*>>("records")
+                    val records = _self.requireField<ArrayList<*>>("records")
                     if (records.isEmpty()) {
                         // 一个按钮都没有，不用改
                         return@afterPagerDistributeTiles
                     }
                     // 移除原有的页面
-                    val pages = (self.requireField<ArrayList<Any>>("pages"))
+                    val pages = (_self.requireField<ArrayList<Any>>("pages"))
                     for (page in pages) {
                         page.invokeFunction("removeTiles")
                     }
                     // 控制中心上方的 header
-                    val header = self getField "header"
+                    val header = _self getField "header"
                     // 计算每个页面上应该存在的按钮
                     // 这里返回的列表不可能为空，没有按钮的情况已经在上面考虑了
                     val newPages = calculateSwitchLocation(records, column, row)
@@ -160,19 +158,18 @@ object ControlCenterHooker : IPackageInitHooker, IResourcesInitHooker {
                     while (pages.size > newPages.size) {
                         pages.removeLast()
                     }
-                    self.setField("rows", row)
-                    self.setField("pages", pages)
-                    val pageIndicator = self getField "pageIndicator"
+                    _self.setField("rows", row)
+                    _self.setField("pages", pages)
+                    val pageIndicator = _self getField "pageIndicator"
                     pageIndicator?.invokeFunction(
                         "setNumPages",
                         Int::class.java to pages.size
                     )
-                    LogTools.i(TAG, (self getField "adapter")!!::class.java.name)
                     // 这里必须用插件的类加载器来加载这些安卓库，否则它们并不是同一个类
                     ANDROIDX_VIEW_PAGER_CLS.wildClass(pluginClassLoader).accessFunction(
                         "setAdapter",
                         ANDROIDX_PAGER_ADAPTER_CLS.wildClass(pluginClassLoader)
-                    ).invoke(self, self getField "adapter")
+                    ).invoke(_self, _self getField "adapter")
                 }
             }
         }
