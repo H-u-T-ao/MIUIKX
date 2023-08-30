@@ -23,7 +23,7 @@ private const val TAG_RES = "MIUIKXCore-Resources"
 
 @Keep
 @Suppress("UNUSED")
-class MIUIKXCore1 :
+class MIUIKXCore :
     IXposedHookZygoteInit,
     IXposedHookLoadPackage,
     IXposedHookInitPackageResources {

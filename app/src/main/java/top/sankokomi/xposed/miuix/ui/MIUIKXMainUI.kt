@@ -54,18 +54,21 @@ fun MIUIKXMain() {
         }
         MIUIKXIntPrefSlideBar(
             property = preference::qsPagerRow,
-            text = "新版控制中心每页开关行数",
+            text = stringResource(id = R.string.qs_pager_row_count),
+            tips = stringResource(id = R.string.qs_pager_row_count_tips),
             valueRange = 3..8
         )
         MIUIKXIntPrefSlideBar(
             property = preference::qsPagerColumn,
-            text = "新版控制中心每页开关行数",
+            text = stringResource(id = R.string.qs_pager_column_count),
+            tips = stringResource(id = R.string.qs_pager_column_count_tips),
             enabled = false,
             valueRange = 1..6
         )
         MIUIKXBooleanPrefSwitch(
-            property = preference::dockerSearchIconRedirect,
-            text = "抽屉模式重定向 Docker 栏搜索按键"
+            property = preference::shortcutSearchIconRedirect,
+            text = stringResource(id = R.string.shortcut_search_icon_redirect),
+            tips = stringResource(id = R.string.shortcut_search_icon_redirect_tips)
         )
     }
 }

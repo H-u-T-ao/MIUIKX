@@ -10,11 +10,7 @@ import top.sankokomi.xposed.miuix.tools.LogTools
 private const val TAG = "HostGlobal"
 
 @Suppress("StaticFieldLeak")
-class HostGlobal {
-
-    companion object {
-        val injectedList = hashMapOf<String, HostGlobal>()
-    }
+object HostGlobal {
 
     fun inject(app: Application) {
         _context = app

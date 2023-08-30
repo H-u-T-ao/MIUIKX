@@ -2,4 +2,11 @@
     <string name="app_name">MIUIKX</string>
     <string name="restart_system_ui">Restart System UI</string>
     <string name="restart_miui_home">Restart MIUI Home</string>
+    <string name="current_value">"Current value: "</string>
+    <string name="qs_pager_row_count">Number of new control center tile rows</string>
+    <string name="qs_pager_column_count">Number of new control center tile columns</string>
+    <string name="qs_pager_row_count_tips">Default value 4, range [3,8]</string>
+    <string name="qs_pager_column_count_tips">Default value 4</string>
+    <string name="shortcut_search_icon_redirect">Redirect shortcut bar search button</string>
+    <string name="shortcut_search_icon_redirect_tips">Effective when desktop mode is drawer mode and the shortcut bar search button is visible, redirect the search button to open drawer</string>
 </resources>

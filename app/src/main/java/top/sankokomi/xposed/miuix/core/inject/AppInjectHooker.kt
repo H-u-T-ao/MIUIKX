@@ -28,8 +28,7 @@ object AppInjectHooker : IPackageInitHooker {
             emptyArray()
         ) {
             after {
-                HostGlobal.injectedList[param.packageName] =
-                    HostGlobal().apply { inject(_self as Application) }
+                HostGlobal.inject(_self as Application)
                 LogTools.i(TAG, "injected = ${param.packageName}")
             }
         }

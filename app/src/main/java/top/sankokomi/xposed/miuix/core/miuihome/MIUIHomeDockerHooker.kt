@@ -2,8 +2,6 @@ package top.sankokomi.xposed.miuix.core.miuihome
 
 import android.view.View
 import android.view.ViewGroup
-import de.robv.android.xposed.XposedBridge
-import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import top.sankokomi.xposed.miuix.core.base.IPackageInitHooker
 import top.sankokomi.xposed.miuix.global.HostGlobal
@@ -34,15 +32,15 @@ object MIUIHomeDockerHooker : IPackageInitHooker {
         if (isLoaded) return false
         if (param.packageName != PackageName.MIUI_HOME_PK) return false
         isLoaded = true
-        if (preference.dockerSearchIconRedirect) {
-            findDockerSearchIcon(param) {
-                hookDockerSearchIcon(param, it)
+        if (preference.shortcutSearchIconRedirect) {
+            findShortcutSearchIcon(param) {
+                hookShortcutSearchIcon(param, it)
             }
         }
         return true
     }
 
-    private fun findDockerSearchIcon(
+    private fun findShortcutSearchIcon(
         param: XC_LoadPackage.LoadPackageParam,
         callback: (Any) -> Unit
     ) {
@@ -64,7 +62,7 @@ object MIUIHomeDockerHooker : IPackageInitHooker {
         }
     }
 
-    private fun hookDockerSearchIcon(
+    private fun hookShortcutSearchIcon(
         param: XC_LoadPackage.LoadPackageParam,
         holder: Any
     ) {
@@ -79,7 +77,7 @@ object MIUIHomeDockerHooker : IPackageInitHooker {
             // 重新配置点击事件
             // 开启了抽屉模式，展示抽屉
             (searchIcon as View).setOnClickListener {
-                if(HostGlobal.injectedList[PackageName.MIUI_HOME_PK]?.isAppForeground == false) {
+                if(!HostGlobal.isAppForeground) {
                     // 明确系统桌面不在前台时，调用指令调回前台并打开抽屉
                     command("input keyevent 3", false)
                 }

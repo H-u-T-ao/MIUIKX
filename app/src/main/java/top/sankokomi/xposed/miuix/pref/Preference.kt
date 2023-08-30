@@ -29,12 +29,12 @@ class Preference(
     )
 
     @Pref(
-        "系统桌面 docker 栏的搜索按钮重定向，" +
+        "系统桌面快捷栏的搜索按钮重定向，" +
                 "true 表示若开启了抽屉模式，则重定向到打开抽屉，其余情况不生效",
         "默认 false"
     )
-    var dockerSearchIconRedirect by BooleanPrefProperty(
-        "docker_search_icon_redirect",
+    var shortcutSearchIconRedirect by BooleanPrefProperty(
+        "shortcut_search_icon_redirect",
         false
     )
 
