@@ -11,9 +11,17 @@ import top.sankokomi.xposed.miuix.tools.hookFunction
 
 private const val TAG = "AppInjectHooker"
 
+/**
+ * 在指定包名的 APP 启动时直接 hook 得到其 Application 以供后续使用
+ *
+ * 增添新的需要 hook 的包名时需要在 [AppInjectHooker.injectList] 内添加
+ *
+ * 由于不同的 app 会跑在不同的进程内，因此总是会只注册到一个目标 app
+ * */
 object AppInjectHooker : IPackageInitHooker {
 
     private val injectList = listOf(
+        PackageName.ANDROID_SYSTEM_UI_PK,
         PackageName.MIUI_HOME_PK
     )
 

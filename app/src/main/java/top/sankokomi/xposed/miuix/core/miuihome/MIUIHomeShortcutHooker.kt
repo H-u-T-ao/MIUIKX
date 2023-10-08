@@ -22,7 +22,7 @@ private const val MIUI_DOCKER_SHORTCUT_ADAPTER_CLS =
 private const val MIUI_DOCKER_SHORTCUT_ABSTRACT_VIEW_HOLDER_CLS =
     "com.miui.home.launcher.hotseats.HotSeatsListContentAdapter\$ViewHolder"
 
-object MIUIHomeDockerHooker : IPackageInitHooker {
+object MIUIHomeShortcutHooker : IPackageInitHooker {
 
     private var isLoaded: Boolean = false
 
@@ -32,12 +32,18 @@ object MIUIHomeDockerHooker : IPackageInitHooker {
         if (isLoaded) return false
         if (param.packageName != PackageName.MIUI_HOME_PK) return false
         isLoaded = true
+        redirectShortcutSearchIcon(param)
+        return true
+    }
+
+    private fun redirectShortcutSearchIcon(
+        param: XC_LoadPackage.LoadPackageParam
+    ) {
         if (preference.shortcutSearchIconRedirect) {
             findShortcutSearchIcon(param) {
                 hookShortcutSearchIcon(param, it)
             }
         }
-        return true
     }
 
     private fun findShortcutSearchIcon(
@@ -77,7 +83,7 @@ object MIUIHomeDockerHooker : IPackageInitHooker {
             // 重新配置点击事件
             // 开启了抽屉模式，展示抽屉
             (searchIcon as View).setOnClickListener {
-                if(!HostGlobal.isAppForeground) {
+                if (!HostGlobal.isAppForeground) {
                     // 明确系统桌面不在前台时，调用指令调回前台并打开抽屉
                     command("input keyevent 3", false)
                 }

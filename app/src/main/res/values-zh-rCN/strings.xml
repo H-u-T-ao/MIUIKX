@@ -3,11 +3,14 @@
     <string name="app_name">MIUIKX</string>
     <string name="restart_system_ui">重启系统界面</string>
     <string name="restart_miui_home">重启系统桌面</string>
-    <string name="qs_pager_row_count">控制中心（新版）磁贴行数</string>
-    <string name="qs_pager_column_count">控制中心（旧版）磁贴行数</string>
+    <string name="qs_pager_vertical_row_count">控制中心（新版）磁贴行数（纵向）</string>
+    <string name="qs_pager_vertical_column_count">控制中心（旧版）磁贴列数（纵向）</string>
     <string name="qs_pager_row_count_tips">默认值 4，范围 [3,8]</string>
     <string name="qs_pager_column_count_tips">默认值 4</string>
     <string name="shortcut_search_icon_redirect">重定向快捷栏按钮</string>
     <string name="shortcut_search_icon_redirect_tips">在桌面模式为抽屉模式且开启快捷栏搜索按钮时生效，将搜索按钮重定向为打开抽屉</string>
     <string name="current_value">当前值：</string>
+    <string name="qs_pager_orientation_row_count">控制中心（新版）磁贴行数（横向）</string>
+    <string name="qs_pager_orientation_column_count">控制中心（新版）磁贴列数（横向）</string>
+    <string name="qs_tiles_corner_enable">启用控制中心磁贴圆角矩形</string>
 </resources>

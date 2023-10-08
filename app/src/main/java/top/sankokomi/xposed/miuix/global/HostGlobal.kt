@@ -14,7 +14,7 @@ object HostGlobal {
 
     fun inject(app: Application) {
         _context = app
-        app.registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks{
+        app.registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
             override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
             }
 
@@ -43,9 +43,16 @@ object HostGlobal {
         })
     }
 
-     val isDebug: Boolean = BuildConfig.DEBUG
+    val isDebug: Boolean = BuildConfig.DEBUG
 
     val context: Context get() = _context!!
+
+    val miuikxContext: Context by lazy {
+        context.createPackageContext(
+            BuildConfig.APPLICATION_ID,
+            Context.CONTEXT_IGNORE_SECURITY
+        ).createDeviceProtectedStorageContext()
+    }
 
     /**
      * 当前是 MIUIKX

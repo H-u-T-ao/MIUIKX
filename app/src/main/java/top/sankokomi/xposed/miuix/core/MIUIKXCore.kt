@@ -9,10 +9,11 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 import top.sankokomi.xposed.miuix.core.base.IPackageInitHooker
 import top.sankokomi.xposed.miuix.core.base.IResourcesInitHooker
 import top.sankokomi.xposed.miuix.core.base.IZygoteInitHooker
+import top.sankokomi.xposed.miuix.core.debug.DebugViewFinder
 import top.sankokomi.xposed.miuix.core.inject.AppInjectHooker
-import top.sankokomi.xposed.miuix.core.miuihome.MIUIHomeDockerHooker
-import top.sankokomi.xposed.miuix.core.systemui.ControlCenterHooker
+import top.sankokomi.xposed.miuix.core.miuihome.MIUIHomeShortcutHooker
 import top.sankokomi.xposed.miuix.core.systemui.NavigationBarHooker
+import top.sankokomi.xposed.miuix.core.systemui.plugin.QSTilesPageHooker
 import top.sankokomi.xposed.miuix.tools.LogTools
 
 private const val TAG_ZYGOTE = "MIUIKXCore-Zygote"
@@ -23,7 +24,7 @@ private const val TAG_RES = "MIUIKXCore-Resources"
 
 @Keep
 @Suppress("UNUSED")
-class MIUIKXCore :
+class MIUIKXCore1 :
     IXposedHookZygoteInit,
     IXposedHookLoadPackage,
     IXposedHookInitPackageResources {
@@ -32,10 +33,11 @@ class MIUIKXCore :
     )
 
     private val packageInitHookList = listOf<IPackageInitHooker>(
-        AppInjectHooker, /* 优先 */
+        AppInjectHooker, /* 优先，新的包名需要添加到内部 */
         NavigationBarHooker,
-        ControlCenterHooker,
-        MIUIHomeDockerHooker
+        QSTilesPageHooker,
+        MIUIHomeShortcutHooker,
+        DebugViewFinder
     )
 
     private val resourcesInitHookList = listOf<IResourcesInitHooker>(

@@ -11,6 +11,8 @@ object ClassName {
     const val ANDROID_VIEW_CLS = "android.view.View"
     const val ANDROID_VIEW_ON_CLICK_LISTENER_CLS = "android.view.View\$OnClickListener"
     const val ANDROID_IMAGE_VIEW_CLS = "android.widget.ImageView"
+    const val ANDROID_RESOURCES_CLS = "android.content.res.Resources"
+    const val ANDROID_RESOURCES_THEME_CLS = "android.content.res.Resources.Theme"
 }
 
 object PrefKey {

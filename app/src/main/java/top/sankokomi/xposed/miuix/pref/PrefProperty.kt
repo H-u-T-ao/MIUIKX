@@ -1,14 +1,14 @@
 package top.sankokomi.xposed.miuix.pref
 
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
 @Target(AnnotationTarget.PROPERTY)
 @Retention(AnnotationRetention.SOURCE)
 annotation class Pref(
+    @Suppress("UNUSED")
     val desc: String,
+    @Suppress("UNUSED")
     val def: String
 )
 

@@ -11,20 +11,38 @@ class Preference(
 ) : IPrefSp by prefSp {
 
     @Pref(
-        "新版控制中心每页开关行数",
+        "新版控制中心纵向每页开关行数",
         "默认 4 , >= 3"
     )
-    var qsPagerRow by IntPrefProperty(
-        "qs_pager_row",
+    var qsPagerVerticalRow by IntPrefProperty(
+        "qs_pager_vertical_row",
         4
     )
 
     @Pref(
-        "新版控制中心每页开关列数",
+        "新版控制中心纵向每页开关列数",
         "默认 4 , >= 1"
     )
-    var qsPagerColumn by IntPrefProperty(
-        "qs_pager_column",
+    var qsPagerVerticalColumn by IntPrefProperty(
+        "qs_pager_vertical_column",
+        4
+    )
+
+    @Pref(
+        "新版控制中心横向每页开关行数",
+        "默认 4 , >= 3"
+    )
+    var qsPagerOrientationRow by IntPrefProperty(
+        "qs_pager_orientation_row",
+        4
+    )
+
+    @Pref(
+        "新版控制中心横向每页开关列数",
+        "默认 4 , >= 1"
+    )
+    var qsPagerOrientationColumn by IntPrefProperty(
+        "qs_pager_orientation_column",
         4
     )
 
@@ -35,6 +53,15 @@ class Preference(
     )
     var shortcutSearchIconRedirect by BooleanPrefProperty(
         "shortcut_search_icon_redirect",
+        false
+    )
+
+    @Pref(
+        "是否开启控制中心磁贴圆角矩形",
+        "默认 false"
+    )
+    var qsTilesCornerEnable by BooleanPrefProperty(
+        "qs_tiles_corner_enable",
         false
     )
 
